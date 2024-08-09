@@ -19,7 +19,7 @@
 #include "abag.h"
 #include "constants.hpp"
 
-#define REPO_DIR "/home/minh/workspace/kinova_control_experiments/"
+#define REPO_DIR "~/Documents/thesis/code_ws/src/repos/kinova_control_experiments/"
 #define CTRL_APPROACH "position_velocity"
 
 namespace k_api = Kinova::Api;
@@ -38,7 +38,7 @@ void impedance_control_posvel (
 ) {
     /* Initialize KDL data structures */
     int returnFlag = 0;
-    const KDL::Vector GRAVITY(0.0, 0.0, -9.81289);
+    const KDL::Vector GRAVITY(-9.6, 0.92, 1.4);
     const KDL::JntArray ZERO_ARRAY(ACTUATOR_COUNT);
     const KDL::Wrenches ZERO_WRENCHES(pArmChain.getNrOfSegments(), KDL::Wrench::Zero());
     KDL::JntArray jntCmdTorques(ACTUATOR_COUNT), jntPositions(ACTUATOR_COUNT), jntVelocities(ACTUATOR_COUNT),
@@ -193,7 +193,7 @@ void impedance_control_posvel (
 
         if (iterationCount == 1)
         {
-            desiredPos[0] = endEffPose.p(0) + 0.10;
+            desiredPos[0] = endEffPose.p(0) + 0.10; // m
             desiredPos[1] = endEffPose.p(1) + 0.10;
             desiredPos[2] = endEffPose.p(2) + 0.10;
             desiredValuesLog << desiredPos[0] << "," << desiredPos[1] << "," << desiredPos[2] << ","
