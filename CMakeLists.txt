@@ -2,8 +2,9 @@ cmake_minimum_required(VERSION 3.5)
 
 project(KinovaControlExperiments VERSION 0.0.1 LANGUAGES CXX)
 
-find_package(kdl_parser)
-find_package(orocos_kdl)
+find_package(orocos_kdl REQUIRED)
+find_package(kdl_parser REQUIRED)
+
 
 # configuration library
 find_library(CONFIG_CPP_LIBRARY "config++" "/usr/lib" "/usr/local/lib")
@@ -47,14 +48,23 @@ include_directories(
     ${KORTEX_DIR}/include/client_stubs
 )
 
+# Print link libraries
+
+MESSAGE("orocos_kdl_LIBRARIES: ${orocos_kdl_LIBRARIES}")
+MESSAGE("kdl_parser_LIBRARIES: ${kdl_parser_LIBRARIES}")
+
 # KDL related
 include_directories(
     ${orocos_kdl_INCLUDE_DIRS}
-    ${kdl_parser_INCLUDE_DIRS}
+    # ${kdl_parser_INCLUDE_DIRS}
+    /opt/ros/humble/include/urdf
+    /opt/ros/humble/include/kdl_parser
 )
 link_libraries(
     ${orocos_kdl_LIBRARIES}
-    ${kdl_parser_LIBRARIES}
+    # ${kdl_parser_LIBRARIES}
+    /opt/ros/humble/lib/liburdf.so
+    /opt/ros/humble/lib/libkdl_parser.so 
     pthread
 )
 
