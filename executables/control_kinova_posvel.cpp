@@ -19,7 +19,7 @@
 #include "abag.h"
 #include "constants.hpp"
 
-#define REPO_DIR "~/Documents/thesis/code_ws/src/repos/kinova_control_experiments/"
+#define REPO_DIR "/home/sharma/Documents/thesis/code_ws/src/repos/kinova_control_experiments/"
 #define CTRL_APPROACH "position_velocity"
 
 namespace k_api = Kinova::Api;
@@ -38,7 +38,11 @@ void impedance_control_posvel (
 ) {
     /* Initialize KDL data structures */
     int returnFlag = 0;
-    const KDL::Vector GRAVITY(-9.6, 0.92, 1.4);
+    // const KDL::Vector GRAVITY(-0.033, -0.053, -9.401); // configuration on table top - 2
+    const KDL::Vector GRAVITY(0.0, 0.0, -9.81289); // configuration on table top - 1
+    // const KDL::Vector GRAVITY(-9.6, 0.92, 1.4); // configuration on mobile platform
+    std::cout << "Gravity vector: " << GRAVITY(0) << ", " << GRAVITY(1) << ", " << GRAVITY(2) << std::endl;
+    
     const KDL::JntArray ZERO_ARRAY(ACTUATOR_COUNT);
     const KDL::Wrenches ZERO_WRENCHES(pArmChain.getNrOfSegments(), KDL::Wrench::Zero());
     KDL::JntArray jntCmdTorques(ACTUATOR_COUNT), jntPositions(ACTUATOR_COUNT), jntVelocities(ACTUATOR_COUNT),
@@ -194,8 +198,8 @@ void impedance_control_posvel (
         if (iterationCount == 1)
         {
             desiredPos[0] = endEffPose.p(0) + 0.10; // m
-            desiredPos[1] = endEffPose.p(1) + 0.10;
-            desiredPos[2] = endEffPose.p(2) + 0.10;
+            desiredPos[1] = endEffPose.p(1);
+            desiredPos[2] = endEffPose.p(2);
             desiredValuesLog << desiredPos[0] << "," << desiredPos[1] << "," << desiredPos[2] << ","
                              << desiredTwist[0] << "," << desiredTwist[1] << "," << desiredTwist[2] << std::endl;
             if (desiredValuesLog.is_open()) desiredValuesLog.close();
