@@ -128,16 +128,21 @@ void impedance_control_posvel(k_api::Base::BaseClient* base,
 
     // open log file streams
     std::ofstream desiredValuesLog;
-    desiredValuesLog.open("desired_values.csv", std::ofstream::out | std::ofstream::trunc);
+    const filesystem::path log_dir = PROJECT_SOURCE_DIR / filesystem::path("logs");
+    std::cout << "log_dir: " << log_dir << std::endl;
+    filesystem::create_directory(log_dir);
+
+    desiredValuesLog.open(log_dir / "desired_values.csv",
+                          std::ofstream::out | std::ofstream::trunc);
     desiredValuesLog << "position X, position Y, position Z, velocity X, velocity Y, velocity Z"
                      << std::endl;
     std::ofstream logPosX, logPosY, logPosZ, logVelX, logVelY, logVelZ;
-    logPosX.open("ctrl_data_pos_x.csv", std::ofstream::out | std::ofstream::trunc);
-    logPosY.open("ctrl_data_pos_y.csv", std::ofstream::out | std::ofstream::trunc);
-    logPosZ.open("ctrl_data_pos_z.csv", std::ofstream::out | std::ofstream::trunc);
-    logVelX.open("ctrl_data_vel_x.csv", std::ofstream::out | std::ofstream::trunc);
-    logVelY.open("ctrl_data_vel_y.csv", std::ofstream::out | std::ofstream::trunc);
-    logVelZ.open("ctrl_data_vel_z.csv", std::ofstream::out | std::ofstream::trunc);
+    logPosX.open(log_dir / "ctrl_data_pos_x.csv", std::ofstream::out | std::ofstream::trunc);
+    logPosY.open(log_dir / "ctrl_data_pos_y.csv", std::ofstream::out | std::ofstream::trunc);
+    logPosZ.open(log_dir / "ctrl_data_pos_z.csv", std::ofstream::out | std::ofstream::trunc);
+    logVelX.open(log_dir / "ctrl_data_vel_x.csv", std::ofstream::out | std::ofstream::trunc);
+    logVelY.open(log_dir / "ctrl_data_vel_y.csv", std::ofstream::out | std::ofstream::trunc);
+    logVelZ.open(log_dir / "ctrl_data_vel_z.csv", std::ofstream::out | std::ofstream::trunc);
     logPosX << "time (ns), error, signed, bias, gain, e_bar, command x, meas pos x" << std::endl;
     logPosY << "time (ns), error, signed, bias, gain, e_bar, command y, meas pos y" << std::endl;
     logPosZ << "time (ns), error, signed, bias, gain, e_bar, command z, meas pos z" << std::endl;
@@ -313,7 +318,6 @@ int main(int argc, char** argv) {  // Get file path
     const filesystem::path project_source_dir = PROJECT_SOURCE_DIR;  // Defined in CMakeLists.txt
     const filesystem::path config_file_path = project_source_dir / "config" / "kinova.cfg";
     const filesystem::path urdf_file_path = project_source_dir / kc_const::kinova::URDF_PATH;
-
     std::cout << "project_source_dir: " << project_source_dir << std::endl;
     std::cout << "config_file_path: " << config_file_path << std::endl;
     std::cout << "urdf_file_path: " << urdf_file_path << std::endl;
