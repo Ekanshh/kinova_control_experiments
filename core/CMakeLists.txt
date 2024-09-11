@@ -1,0 +1,2 @@
+add_subdirectory(kinova_api)
+add_subdirectory(controller)

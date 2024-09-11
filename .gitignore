@@ -34,3 +34,5 @@
 # user defined
 build
 .vscode
+.clang-tidy
+.clang-format

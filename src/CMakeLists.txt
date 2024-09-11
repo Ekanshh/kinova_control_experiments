@@ -1,0 +1,2 @@
+add_executable(impedance_control_posvel impedance_control_posvel.cpp)  
+target_link_libraries(impedance_control_posvel PRIVATE kinova_control_interface)
