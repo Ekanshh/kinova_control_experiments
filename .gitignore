@@ -37,3 +37,4 @@ build
 .clang-tidy
 .clang-format
 logs
+*.sh
